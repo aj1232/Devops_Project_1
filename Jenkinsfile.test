@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    
+    environment {
+        IMAGE_NAME = "abode-webapp"
+        CONTAINER_NAME = "abode-test-container"
+    }
+    
+    stages {
+        stage('Run Container for Testing') {
+            steps{
+                sh '''
+                docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
+                sleep 10
+                '''
+            }
+        }
+        stage('Application Test') {
+            steps {
+                sh '''
+                curl http://localhost:8081
+                '''
+            }
+        }
+    }
+    
+    post {
+        always {
+            sh '''
+            docker stop $CONTAINER_NAME || true
+            docker rm $CONTAINER_NAME || true
+            '''
+        }
+        
+        success {
+            script {
+                if (env.BRANCH_NAME == "master") {
+                    build job: 'prod'
+                }
+            }
+        }
+    }
+}
