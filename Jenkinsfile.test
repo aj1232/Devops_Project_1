@@ -30,7 +30,7 @@ pipeline {
             script {
                 def branch = env.GIT_BRANCH?.replaceFirst(/^origin\//, '')
                 echo "Detected branch: ${branch}"
-                if (env.BRANCH_NAME == "master") {
+                if (branch == "master") {
                     build job: 'prod'
                 }
             }
