@@ -11,9 +11,9 @@ pipeline {
     stages {
         stage('Deploy to Production') {
             steps{
-                sh 'docker stop $CONTAINER_NAME || true'
-                sh 'docker rm $CONTAINER_NAME || true'
-                sh 'docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME'
+                //sh 'sudo docker stop $CONTAINER_NAME || true'
+                //sh 'sudo docker rm $CONTAINER_NAME || true'
+                sh 'sudo docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME'
             }
         }
     }
