@@ -24,6 +24,7 @@ pipeline {
         always {
             sh 'docker stop $CONTAINER_NAME || true'
             sh 'docker rm $CONTAINER_NAME || true'
+            echo 'Branch Name: ${env.BRANCH_NAME}'
         }
         
         success {
