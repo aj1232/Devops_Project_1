@@ -9,6 +9,10 @@ pipeline {
     stages {
         stage('Run Container for Testing') {
             steps{
+                script {
+                    env.BRANCH_NAME = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                    echo 'Branch Name: ${env.BRANCH_NAME}'
+                }
                 sh 'docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME'
                 sh 'sleep 10'
             }
@@ -24,8 +28,6 @@ pipeline {
         always {
             sh 'docker stop $CONTAINER_NAME || true'
             sh 'docker rm $CONTAINER_NAME || true'
-            echo 'Branch Name: $env.BRANCH_NAME'
-            echo 'Branch Name: env.BRANCH_NAME'
         }
         
         success {
