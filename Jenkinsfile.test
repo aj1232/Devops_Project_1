@@ -9,10 +9,6 @@ pipeline {
     stages {
         stage('Run Container for Testing') {
             steps{
-                script {
-                    env.BRANCH_NAME = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
-                    echo 'Branch Name: ${env.BRANCH_NAME}'
-                }
                 sh 'docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME'
                 sh 'sleep 10'
             }
@@ -32,6 +28,8 @@ pipeline {
         
         success {
             script {
+                def branch = env.GIT_BRANCH?.replaceFirst(/^origin\//, '')
+                echo "Detected branch: ${branch}"
                 if (env.BRANCH_NAME == "master") {
                     build job: 'prod'
                 }
