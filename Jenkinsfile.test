@@ -9,27 +9,21 @@ pipeline {
     stages {
         stage('Run Container for Testing') {
             steps{
-                sh '''
-                sudo docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
-                sleep 10
-                '''
+                sh 'docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME'
+                sh 'sleep 10'
             }
         }
         stage('Application Test') {
             steps {
-                sh '''
-                curl http://localhost:8081
-                '''
+                sh 'curl http://localhost:8081'
             }
         }
     }
     
     post {
         always {
-            sh '''
-            sudo docker stop $CONTAINER_NAME || true
-            sudo docker rm $CONTAINER_NAME || true
-            '''
+            sh 'sudo docker stop $CONTAINER_NAME || true'
+            sh 'sudo docker rm $CONTAINER_NAME || true'
         }
         
         success {
