@@ -22,8 +22,8 @@ pipeline {
     
     post {
         always {
-            sh 'sudo docker stop $CONTAINER_NAME || true'
-            sh 'sudo docker rm $CONTAINER_NAME || true'
+            sh 'docker stop $CONTAINER_NAME || true'
+            sh 'docker rm $CONTAINER_NAME || true'
         }
         
         success {
