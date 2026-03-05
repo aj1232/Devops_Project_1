@@ -14,7 +14,7 @@ pipeline {
                 //sh 'sudo docker stop $CONTAINER_NAME || true'
                 //sh 'sudo docker rm $CONTAINER_NAME || true'
                 //sh 'docker rmi $IMAGE_NAME'
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'sudo docker build -t $IMAGE_NAME .'
                 sh 'sudo docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME'
             }
         }
