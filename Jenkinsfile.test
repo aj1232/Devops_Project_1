@@ -10,7 +10,7 @@ pipeline {
         stage('Run Container for Testing') {
             steps{
                 sh 'docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME'
-                sh 'sleep 10'
+                sh 'sleep 5'
             }
         }
         stage('Application Test') {
